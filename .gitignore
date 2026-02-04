@@ -1,0 +1,29 @@
+# Compiled class files
+target/
+*.class
+
+# Log files
+*.log
+logs/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Sensitive files - NEVER commit these
+src/main/resources/application.properties
+
+# Keep a template for others
+!src/main/resources/application.properties.example

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Mark Attendance')}"></head>
+<body>
+    <div class="app-container">
+        <nav th:replace="~{fragments/layout :: admin-sidebar}"></nav>
+        
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">
+                    Attendance: <span th:text="${course.courseCode}">CS101</span> - <span th:text="${course.courseName}">Course</span>
+                </h1>
+                <a th:href="@{/admin/attendance}" class="btn btn-secondary">Back to Courses</a>
+            </div>
+            
+            <div class="card">
+                <form th:action="@{/admin/attendance/save}" method="post">
+                    <input type="hidden" name="courseId" th:value="${course.id}">
+                    
+                    <div class="form-group" style="max-width: 250px; margin-bottom: 1.5rem;">
+                        <label class="form-label" for="date">Date</label>
+                        <input type="date" id="date" name="date" class="form-control" th:value="${date}" required>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Roll No</th>
+                                    <th>Student Name</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="enrollment : ${enrollments}">
+                                    <input type="hidden" name="studentIds" th:value="${enrollment.studentId}">
+                                    <td th:text="${enrollment.student.rollNo}">2024001</td>
+                                    <td th:text="${enrollment.student.fullName}">John Doe</td>
+                                    <td>
+                                        <select name="statuses" class="form-control" style="width: 140px;">
+                                            <option value="PRESENT">Present</option>
+                                            <option value="ABSENT">Absent</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(enrollments)}">
+                                    <td colspan="3" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                        No students enrolled in this course.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem;" th:if="${!#lists.isEmpty(enrollments)}">
+                        <button type="submit" class="btn btn-primary">Save Attendance</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>

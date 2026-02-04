@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Enter Grades')}"></head>
+<body>
+    <div class="app-container">
+        <nav th:replace="~{fragments/layout :: admin-sidebar}"></nav>
+        
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">
+                    Enter Grades: <span th:text="${course.courseCode}">CS101</span> - <span th:text="${course.courseName}">Course</span>
+                </h1>
+                <a th:href="@{/admin/grades}" class="btn btn-secondary">Back to Courses</a>
+            </div>
+            
+            <div class="card">
+                <form th:action="@{/admin/grades/save}" method="post">
+                    <input type="hidden" name="courseId" th:value="${course.id}">
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Roll No</th>
+                                    <th>Student Name</th>
+                                    <th>Marks (0-100)</th>
+                                    <th>Current Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="enrollment : ${enrollments}">
+                                    <input type="hidden" name="enrollmentIds" th:value="${enrollment.id}">
+                                    <td th:text="${enrollment.student.rollNo}">2024001</td>
+                                    <td th:text="${enrollment.student.fullName}">John Doe</td>
+                                    <td>
+                                        <input type="number" name="marks" class="form-control" 
+                                               style="width: 120px;" min="0" max="100" step="0.5"
+                                               th:value="${enrollment.marks}" placeholder="0-100">
+                                    </td>
+                                    <td>
+                                        <span th:if="${enrollment.grade}" class="badge badge-success" th:text="${enrollment.grade}">A</span>
+                                        <span th:unless="${enrollment.grade}" class="badge badge-warning">Not Graded</span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(enrollments)}">
+                                    <td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                        No students enrolled in this course.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem;" th:if="${!#lists.isEmpty(enrollments)}">
+                        <button type="submit" class="btn btn-primary">Save All Grades</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>

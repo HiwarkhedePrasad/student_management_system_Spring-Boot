@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Student Dashboard')}"></head>
+<body>
+    <div class="app-container">
+        <nav th:replace="~{fragments/layout :: student-sidebar}"></nav>
+        
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Welcome, <span th:text="${student.fullName}">Student</span>!</h1>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Enrolled Courses</div>
+                    <div class="stat-value" th:text="${enrolledCourses}">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Roll Number</div>
+                    <div class="stat-value" style="font-size: 1.25rem;" th:text="${student.rollNo}">2024001</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Branch</div>
+                    <div class="stat-value" style="font-size: 1.25rem;" th:text="${student.branch}">CSE</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title">Quick Links</h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a th:href="@{/student/courses}" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                        </svg>
+                        Browse Courses
+                    </a>
+                    <a th:href="@{/student/grades}" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                        </svg>
+                        View Grades
+                    </a>
+                    <a th:href="@{/student/attendance}" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                        </svg>
+                        Check Attendance
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Student Management')}"></head>
+<body>
+    <div class="app-container">
+        <nav th:replace="~{fragments/layout :: admin-sidebar}"></nav>
+        
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Student Directory</h1>
+                <a th:href="@{/admin/students/new}" class="btn btn-primary">Add Student</a>
+            </div>
+            
+            <div class="card">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Roll No</th>
+                                <th>Email</th>
+                                <th>Branch</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="student : ${students}">
+                                <td th:text="${student.fullName}">John Doe</td>
+                                <td th:text="${student.rollNo}">2024001</td>
+                                <td th:text="${student.email}">john@example.com</td>
+                                <td><span class="badge badge-primary" th:text="${student.branch}">CSE</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <a th:href="@{/admin/students/{id}/edit(id=${student.id})}" class="btn btn-secondary btn-sm">Edit</a>
+                                        <form th:action="@{/admin/students/{id}/delete(id=${student.id})}" method="post" style="display: inline;">
+                                            <button type="submit" class="btn btn-danger btn-sm" 
+                                                    onclick="return confirm('Delete this student?')">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(students)}">
+                                <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                    No students found. Click "Add Student" to create one.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>

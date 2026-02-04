@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Grade Entry')}"></head>
+<body>
+    <div class="app-container">
+        <nav th:replace="~{fragments/layout :: admin-sidebar}"></nav>
+        
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Grade Entry</h1>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title">Select a Course</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                    <a th:each="course : ${courses}" 
+                       th:href="@{/admin/grades/{id}(id=${course.id})}" 
+                       class="btn btn-secondary">
+                        <span th:text="${course.courseCode}">CS101</span> - 
+                        <span th:text="${course.courseName}">Course</span>
+                    </a>
+                </div>
+                <p th:if="${#lists.isEmpty(courses)}" style="color: var(--text-secondary); padding: 1rem 0;">
+                    No courses available. Create courses first.
+                </p>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/app.js}"></script>
+</body>
+</html>
